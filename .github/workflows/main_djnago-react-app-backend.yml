@@ -28,12 +28,12 @@ jobs:
         run: |
           cd backend
           python manage.py collectstatic --noinput
-
       - name: Prepare deployment package
-         run: |
+        run: |
           cd backend
           echo "python-3.12" > runtime.txt
           zip -r ../release.zip . -x "venv/*"
+
 
 
       - name: Upload artifact
