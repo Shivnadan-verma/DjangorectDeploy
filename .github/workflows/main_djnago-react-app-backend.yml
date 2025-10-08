@@ -1,4 +1,4 @@
-name: Build and deploy Python app to Azure Web App - djnago-react-app-backend
+name: Build and Deploy Python (Django) App to Azure Web App - djnago-react-app-backend
 
 on:
   push:
@@ -8,10 +8,12 @@ on:
 
 jobs:
   build:
+    name: Build Django App
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -33,7 +35,7 @@ jobs:
         run: |
           cd backend
           echo "python-3.12" > runtime.txt
-          zip -r ../release.zip . -x "venv/*"
+          zip -r ../release.zip . -x "venv/*" "__pycache__/*" "*.pyc" "*.pyo"
 
       - name: Upload artifact
         uses: actions/upload-artifact@v4
@@ -42,25 +44,23 @@ jobs:
           path: release.zip
 
   deploy:
+    name: Deploy to Azure
     runs-on: ubuntu-latest
     needs: build
 
     steps:
-      - name: Download artifact
+      - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: python-app
 
-      # ✅ Add Azure login before deployment
       - name: Login to Azure
         uses: azure/login@v2
         with:
-          creds: ${{ secrets.AZURE_CREDENTIALS }}  # This is where the secret is used
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Deploy to Azure Web App
         uses: azure/webapps-deploy@v3
         with:
-          app-name: 'djnago-react-app-backend'
+          app-name: 'djnago-react-app-backend'   # your Azure Web App name
           package: release.zip
-          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-          slot-name: 'Production'  # Optional: Only needed if deploying to a slot
