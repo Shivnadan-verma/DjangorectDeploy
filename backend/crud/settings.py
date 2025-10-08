@@ -13,7 +13,8 @@ SECRET_KEY = 'django-insecure-3g2@$&g*h*prmggkw9l3+ulp^g$1$aq@kf$feh-v$%6#2zpeux
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['djnago-react-app-backend-bpb7e0c0bvgzhfha.centralindia-01.azurewebsites.net']
+
 
 
 # Application definition
