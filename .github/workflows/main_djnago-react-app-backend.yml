@@ -1,4 +1,4 @@
-name: Build and Deploy Python (Django) App to Azure Web App - djnago-react-app-backend
+name: Build and Deploy Python (Django) App to Azure Web App - django-react-app-backend
 
 on:
   push:
